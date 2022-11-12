@@ -1,0 +1,32 @@
+Homework - lexicon
+==================
+
+- nouns
+    - capitalized in the middle of a sentence
+    - determine
+        - gender
+        - plural class
+        - https://www.thegermanproject.com/german-lessons/nouns
+        - https://en.wikipedia.org/wiki/German_nouns
+- verbs
+    - not capitalized
+    - infinitive ends with -en
+        - kauf-en
+        - kauf-e
+        - kauf-st !! <-- only weak verbs do this
+        - ge-kauf-t !! <-- only weak verbs do this
+- adjectives
+    - not capitalized
+    - atributive adjectives
+        - precede nouns directly -> we can use that
+        - end with "-e", "-en"
+            - https://en.wikipedia.org/wiki/German_declension#Attributive_adjectives
+    - comparative & superlative declensions can be used!
+        - http://germanforenglishspeakers.com/adjectives/comparative-and-superlative-forms/
+- adverbs
+    - same words as adjectives, only without suffix "-e", "-en"
+    - german calls them Eigenschaftswörter (property words)
+        - https://en.wikipedia.org/wiki/Adjective#Adverbs
+    - there are words that act as adverbs, but are not adjectives
+        - http://germanforenglishspeakers.com/other/adverbs/
+        - are they really? They seem to be usable as adverbs.
