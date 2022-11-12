@@ -18,22 +18,51 @@ Setup & Execution
 Implemented Extraction Process
 ------------------------------
 
-I chose to use German. The German corpus used contains POS tags already, but I decided to ignore them and try to determine these tags myself. The most interesting inflection in German is the creation of plural form for nouns. Here, German has a number of inflection classes that I tried to classify the nouns into. In other places (adjectives, verbs) the inflection pattern is the same for (almost) all words.
+I chose to use German. The German corpus used contains POS tags already, but I decided to ignore them and try to determine these tags myself.
 
 Closed class words (articles, pronouns, prepositions, conjunctions) are enumerated in file [`app/closed_classes.py`](app/closed_classes.py) and for the open class words we are primarily interested in nouns, adjectives, verbs and adverbs.
 
 
 ### Verbs
 
-- non-weak verbs?
+There are [five categories of verbs](http://germanforenglishspeakers.com/verbs/verb-types/) in German, where only the weak-verb category could be considered an open class. These verbs have a given inflection pattern we can leverage to detect them. For example with the verb `einkaufen` (to go shopping), we can get the following forms:
 
-- verbs
-    - not capitalized
-    - infinitive ends with -en
-        - kauf-en
-        - kauf-e
-        - kauf-st !! <-- only weak verbs do this
-        - ge-kauf-t !! <-- only weak verbs do this
+```
+ein-kauf-en
+kauf
+kauf-e      ein
+kauf-en     ein
+kauf-t      ein
+kauf-te     ein
+kauf-st     ein
+ein-ge-kauf-t
+```
+
+The morpheme `ein` is a separable prefix and these can be listed and accounted for:
+
+```
+zurück nach auf aus bei ein los mit hin her vor weg an ab zu
+```
+
+For a given lexeme (say `einkaufte`) we can generate possible roots (`kaufte`, `kauft`, `kauf`) and add prefixes and suffixes to them to list potential other lexems. We search for those and create a set of other, related lexemes. We then cluster the lexemes by this condition creating lexeme groups and we select a root-word for each such group. We also remove groups that have too little lexemes. Finally, we try to separate different forms of the same verb with different separable prefixes to get all the possible verb infinitives and their corresponding found lexemes.
+
+The result is printed into the file `data/lexicon-weak-verbs.txt.gz` in the form:
+
+```
+{infinitive} {tab} {lexeme1} {space} {lexeme2} ... {\n}
+-----------------------------------------------------------------------------
+ausgefallen     ausgefallen ausgefallene ausgefallenen
+ausgeflogen     ausgeflogen
+ausgefunden     herausgefunden
+ausgegangen     ausgegangen vorausgegangen vorausgegangene vorausgegangenen
+ausgegeben      ausgegeben herausgegeben
+ausgehenden     ausgehend ausgehende ausgehenden hinausgehende hinausgehenden
+ausgekommen     herausgekommen hinausgekommen
+ausgeladen      ausgeladen
+ausgelassen     ausgelassen
+ausgelaufen     ausgelaufen
+ausgenommen     ausgenommen herausgenommen
+```
 
 
 ### Nouns

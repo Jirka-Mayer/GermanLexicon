@@ -3,6 +3,7 @@ import os
 from app.closed_classes import *
 import app.ui
 import app.io
+from app.extract_weak_verbs import extract_weak_verbs
 
 
 class NounAdjectiveProcessor:
@@ -126,34 +127,14 @@ def main():
         )
         return
 
+    print("Loading words...")
     words = app.io.load_words("data/de-tagged.txt.gz", limit=None)
     # app.ui.print_words(words)
-    app.ui.display_frquency_table(words)
-    exit()
+    # app.ui.display_frquency_table(words)
     
-    open_words = [
-        w for w in words if w.isalpha() and not is_closed_class(w)
-    ]
-
-    open_words_set = set(open_words)
-    def is_verb(word):
-        if word[-2:] == "en":
-            if word[:-2] + "et" in open_words_set:
-                return True
-            if word[:-2] + "est" in open_words_set:
-                return True
-            if "ge" + word[:-2] + "t" in open_words_set:
-                return True
-        if word[-1:] == "e":
-            if word[:-1] + "et" in open_words_set:
-                return True
-            if word[:-1] + "est" in open_words_set:
-                return True
-            if "ge" + word[:-1] + "t" in open_words_set:
-                return True
-        return False
-    verbs = [w for w in open_words if is_verb(w)]
-    app.ui.display_frquency_table(verbs)
+    print("Extracting verbs...")
+    weak_verbs = extract_weak_verbs(words)
+    app.io.write_verbs("data/lexicon-weak-verbs.txt.gz", weak_verbs)
 
     # p = NounAdjectiveProcessor(words)
     # p.run()
