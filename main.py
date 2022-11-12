@@ -1,29 +1,8 @@
-import gzip
 from typing import List, Dict, Tuple
+import os
 from app.closed_classes import *
 import app.ui
-
-def load_words(filename, limit=None):
-    words = []
-    with gzip.open(filename, "rb") as f:
-        i = 0
-        while True:
-            if limit is not None and i > limit:
-                break
-            i += 1
-            
-            line = f.readline()
-            if line == b"":
-                break
-
-            if line == b"\n":
-                continue
-            
-            line = str(line, "UTF-8")
-            word_length = line.index("\t")
-            word = line[:word_length]
-            words.append(word)
-    return words
+import app.io
 
 
 class NounAdjectiveProcessor:
@@ -135,7 +114,19 @@ class NounAdjectiveProcessor:
 ################
 
 def main():
-    words = load_words("data/de-tagged.txt.gz", limit=None)
+    corpus_file_path = "data/de-tagged.txt.gz"
+
+    if not os.path.isfile(corpus_file_path):
+        print("The file {} does not exist.".format(corpus_file_path))
+        print()
+        print("Download the file by executing:")
+        print(
+            "    wget -O data/de-tagged.txt.gz https://ufal.mff.cuni.cz" +
+            "/~zeman/vyuka/morfosynt/lab-lexicon/de-tagged.txt.gz"
+        )
+        return
+
+    words = app.io.load_words("data/de-tagged.txt.gz", limit=None)
     # app.ui.print_words(words)
     app.ui.display_frquency_table(words)
     exit()
