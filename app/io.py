@@ -1,5 +1,5 @@
 import gzip
-from typing import Dict
+from typing import Dict, Set
 
 
 def load_words(filename, limit=None):
@@ -30,4 +30,10 @@ def write_verbs(filename: str, verbs: Dict[str, set]):
         for verb, cluster in sorted(verbs.items(), key=lambda x: x[0]):
             lexemes = " ".join(sorted(cluster))
             line = "{}\t{}\n".format(verb, lexemes)
+            f.write(bytes(line, "UTF-8"))
+
+def write_words(filename: str, words: Set[str]):
+    with gzip.open(filename, "wb") as f:
+        for word in sorted(words):
+            line = "{}\n".format(word)
             f.write(bytes(line, "UTF-8"))
