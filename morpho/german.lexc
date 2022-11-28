@@ -1,32 +1,162 @@
-Multichar_Symbols +N +V +PastPart +Past +PresPart +3P +Sg +Pl
+Multichar_Symbols +N +Masc +Fem +Neut +Sing +Plur +Nom +Gen +Dat +Acc
 
 LEXICON Root
 Noun ;
-Verb ;
-Adjective ;
 
 LEXICON Noun
-Student     NMstudent;
-Polizist    NMstudent;
 
-LEXICON Verb
-geh   Vinf;
+Staat NMstaat;
+Direktor NMstaat;
+Dämon NMstaat;
+Indikator NMstaat;
 
-LEXICON Adjective
+Fahrer NMfahrer;
+Ableger NMfahrer;
+Akademiker NMfahrer;
+Araber NMfahrer;
+
+Lehrling NMlehrling;
+Aspekt NMlehrling;
+Berg NMlehrling;
+Brief NMlehrling;
+
+Student NMstudent;
+Adressat NMstudent;
+Anarchist NMstudent;
+Astronaut NMstudent;
+
+Name NMname;
+
+Mutter NFmutter;
+
+Meinung NFmeinung;
+Elf NFmeinung;
+Emission NFmeinung;
+Emotion NFmeinung;
+
+Kraft NFkraft;
+Bank NFkraft;
+Hand NFkraft;
+Großstädt NFkraft;
+
+Kamera NFkamera;
+Jean NFkamera;
+Opera NFkamera;
+
+Bild NNbild;
+Brett NNbild;
+
+Radio NNradio;
+Büro NNradio;
+Foto NNradio;
+
+
+LEXICON NMstaat
++N+Masc+Sing+Nom:0     #;
++N+Masc+Sing+Acc:0     #;
++N+Masc+Sing+Dat:0     #;
++N+Masc+Sing+Gen:^s    #;
++N+Masc+Plur+Nom:^en   #;
++N+Masc+Plur+Acc:^en   #;
++N+Masc+Plur+Dat:^en   #;
++N+Masc+Plur+Gen:^en   #;
+
+LEXICON NMfahrer
++N+Masc+Sing+Nom:0     #;
++N+Masc+Sing+Acc:0     #;
++N+Masc+Sing+Dat:0     #;
++N+Masc+Sing+Gen:^s    #;
++N+Masc+Plur+Nom:0     #;
++N+Masc+Plur+Acc:0     #;
++N+Masc+Plur+Dat:^en   #;
++N+Masc+Plur+Gen:0     #;
+
+LEXICON NMlehrling
++N+Masc+Sing+Nom:0     #;
++N+Masc+Sing+Acc:0     #;
++N+Masc+Sing+Dat:0     #;
++N+Masc+Sing+Gen:^s    #;
++N+Masc+Plur+Nom:^e    #;
++N+Masc+Plur+Acc:^e    #;
++N+Masc+Plur+Dat:^en   #;
++N+Masc+Plur+Gen:^e    #;
 
 LEXICON NMstudent
-+N+Sg+Nom:0     #;
-+N+Sg+Acc:^en   #;
-+N+Sg+Dat:^en   #;
-+N+Sg+Gen:^en   #;
-+N+Pl+Nom:^en   #;
-+N+Pl+Acc:^en   #;
-+N+Pl+Dat:^en   #;
-+N+Pl+Gen:^en   #;
++N+Masc+Sing+Nom:0     #;
++N+Masc+Sing+Acc:^en   #;
++N+Masc+Sing+Dat:^en   #;
++N+Masc+Sing+Gen:^en   #;
++N+Masc+Plur+Nom:^en   #;
++N+Masc+Plur+Acc:^en   #;
++N+Masc+Plur+Dat:^en   #;
++N+Masc+Plur+Gen:^en   #;
 
-LEXICON Vinf
-+V:0             #;
-+V+3P+Sg:^s      #;
-+V+Past:^ed      #;
-+V+PastPart:^ed  #;
-+V+PresPart:^ing #;
+LEXICON NMname
++N+Masc+Sing+Nom:0     #;
++N+Masc+Sing+Acc:^n    #;
++N+Masc+Sing+Dat:^n    #;
++N+Masc+Sing+Gen:^ns   #;
++N+Masc+Plur+Nom:^n    #;
++N+Masc+Plur+Acc:^n    #;
++N+Masc+Plur+Dat:^n    #;
++N+Masc+Plur+Gen:^n    #;
+
+LEXICON NFmutter
++N+Fem+Sing+Nom:0     #;
++N+Fem+Sing+Acc:0     #;
++N+Fem+Sing+Dat:0     #;
++N+Fem+Sing+Gen:0     #;
++N+Fem+Plur+Nom:^¨    #;
++N+Fem+Plur+Acc:^¨    #;
++N+Fem+Plur+Dat:^¨n   #;
++N+Fem+Plur+Gen:^¨    #;
+
+LEXICON NFmeinung
++N+Fem+Sing+Nom:0     #;
++N+Fem+Sing+Acc:0     #;
++N+Fem+Sing+Dat:0     #;
++N+Fem+Sing+Gen:0     #;
++N+Fem+Plur+Nom:^en   #;
++N+Fem+Plur+Acc:^en   #;
++N+Fem+Plur+Dat:^en   #;
++N+Fem+Plur+Gen:^en   #;
+
+LEXICON NFkraft
++N+Fem+Sing+Nom:0     #;
++N+Fem+Sing+Acc:0     #;
++N+Fem+Sing+Dat:0     #;
++N+Fem+Sing+Gen:0     #;
++N+Fem+Plur+Nom:^¨e   #;
++N+Fem+Plur+Acc:^¨e   #;
++N+Fem+Plur+Dat:^¨en  #;
++N+Fem+Plur+Gen:^¨e   #;
+
+LEXICON NFkamera
++N+Fem+Sing+Nom:0     #;
++N+Fem+Sing+Acc:0     #;
++N+Fem+Sing+Dat:0     #;
++N+Fem+Sing+Gen:0     #;
++N+Fem+Plur+Nom:^s    #;
++N+Fem+Plur+Acc:^s    #;
++N+Fem+Plur+Dat:^s    #;
++N+Fem+Plur+Gen:^s    #;
+
+LEXICON NNbild
++N+Neut+Sing+Nom:0     #;
++N+Neut+Sing+Acc:0     #;
++N+Neut+Sing+Dat:0     #;
++N+Neut+Sing+Gen:^s    #;
++N+Neut+Plur+Nom:^er   #;
++N+Neut+Plur+Acc:^er   #;
++N+Neut+Plur+Dat:^ern  #;
++N+Neut+Plur+Gen:^er   #;
+
+LEXICON NNradio
++N+Neut+Sing+Nom:0     #;
++N+Neut+Sing+Acc:0     #;
++N+Neut+Sing+Dat:0     #;
++N+Neut+Sing+Gen:^s    #;
++N+Neut+Plur+Nom:^s    #;
++N+Neut+Plur+Acc:^s    #;
++N+Neut+Plur+Dat:^s    #;
++N+Neut+Plur+Gen:^s    #;

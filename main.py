@@ -32,18 +32,18 @@ def main():
     print("==========================================")
     print()
 
-    # print("Loading words...")
-    # words = app.io.load_words("data/de-tagged.txt.gz", limit=None)
+    print("Loading words...")
+    words = app.io.load_words("data/de-tagged.txt.gz", limit=None)
 
-    # print("Extracting verbs...")
-    # weak_verbs = extract_weak_verbs(words)
-    # app.io.write_verbs("data/lexicon-weak-verbs.txt.gz", weak_verbs)
+    print("Extracting verbs...")
+    weak_verbs = extract_weak_verbs(words)
+    app.io.write_verbs("data/lexicon-weak-verbs.txt.gz", weak_verbs)
 
-    # print("Extracting nouns and adjectives...")
-    # p = NounAdjectiveProcessor(words)
-    # p.run()
-    # app.io.write_words("data/lexicon-nouns.txt.gz", set(p.nouns))
-    # app.io.write_words("data/lexicon-adjectives.txt.gz", set(p.adjectives))
+    print("Extracting nouns and adjectives...")
+    p = NounAdjectiveProcessor(words)
+    p.run()
+    app.io.write_words("data/lexicon-nouns.txt.gz", set(p.nouns))
+    app.io.write_words("data/lexicon-adjectives.txt.gz", set(p.adjectives))
 
 
     print()

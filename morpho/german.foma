@@ -1,4 +1,21 @@
 read lexc morpho/german.lexc
 define Lexicon;
 
-regex Lexicon;
+define Vovel [ a | e | i | o | u ];
+
+define EDeletion e -> 0 || [ r | l ] "^" _ n ;
+define UmlautApply a -> ä || .#. \Vovel* _ ?* "^" "¨" ,,
+                   e -> ë || .#. \Vovel* _ ?* "^" "¨" ,,
+                   o -> ö || .#. \Vovel* _ ?* "^" "¨" ,,
+                   u -> ü || .#. \Vovel* _ ?* "^" "¨" ;
+define UmlautCleanup "¨" -> 0 || "^" _ ;
+
+define Cleanup "^" -> 0;
+
+define Grammar Lexicon .o.
+    UmlautApply .o.
+    EDeletion .o.
+    UmlautCleanup .o.
+    Cleanup;
+
+regex Grammar;
