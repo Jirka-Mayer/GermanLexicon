@@ -1,0 +1,4 @@
+read lexc morpho/english.lexc
+define Lexicon;
+
+regex Lexicon;

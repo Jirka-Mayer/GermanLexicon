@@ -1,0 +1,32 @@
+Multichar_Symbols +N +V +PastPart +Past +PresPart +3P +Sg +Pl
+
+LEXICON Root
+Noun ;
+Verb ;
+Adjective ;
+
+LEXICON Noun
+Student     NMstudent;
+Polizist    NMstudent;
+
+LEXICON Verb
+geh   Vinf;
+
+LEXICON Adjective
+
+LEXICON NMstudent
++N+Sg+Nom:0     #;
++N+Sg+Acc:^en   #;
++N+Sg+Dat:^en   #;
++N+Sg+Gen:^en   #;
++N+Pl+Nom:^en   #;
++N+Pl+Acc:^en   #;
++N+Pl+Dat:^en   #;
++N+Pl+Gen:^en   #;
+
+LEXICON Vinf
++V:0             #;
++V+3P+Sg:^s      #;
++V+Past:^ed      #;
++V+PastPart:^ed  #;
++V+PresPart:^ing #;

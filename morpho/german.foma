@@ -1,0 +1,4 @@
+read lexc morpho/german.lexc
+define Lexicon;
+
+regex Lexicon;

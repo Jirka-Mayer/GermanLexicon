@@ -5,6 +5,7 @@ from app.NounAdjectiveProcessor import NounAdjectiveProcessor
 import app.ui
 import app.io
 from app.extract_weak_verbs import extract_weak_verbs
+from app.extract_noun_plural_classes import extract_noun_plural_classes
 
 
 ################
@@ -31,18 +32,18 @@ def main():
     print("==========================================")
     print()
 
-    print("Loading words...")
-    words = app.io.load_words("data/de-tagged.txt.gz", limit=None)
+    # print("Loading words...")
+    # words = app.io.load_words("data/de-tagged.txt.gz", limit=None)
 
-    print("Extracting verbs...")
-    weak_verbs = extract_weak_verbs(words)
-    app.io.write_verbs("data/lexicon-weak-verbs.txt.gz", weak_verbs)
+    # print("Extracting verbs...")
+    # weak_verbs = extract_weak_verbs(words)
+    # app.io.write_verbs("data/lexicon-weak-verbs.txt.gz", weak_verbs)
 
-    print("Extracting nouns and adjectives...")
-    p = NounAdjectiveProcessor(words)
-    p.run()
-    app.io.write_words("data/lexicon-nouns.txt.gz", set(p.nouns))
-    app.io.write_words("data/lexicon-adjectives.txt.gz", set(p.adjectives))
+    # print("Extracting nouns and adjectives...")
+    # p = NounAdjectiveProcessor(words)
+    # p.run()
+    # app.io.write_words("data/lexicon-nouns.txt.gz", set(p.nouns))
+    # app.io.write_words("data/lexicon-adjectives.txt.gz", set(p.adjectives))
 
 
     print()
@@ -51,7 +52,25 @@ def main():
     print("===============================================================")
     print()
 
-    # TODO ...
+    print("Loading tagged words...")
+    tagged_words = app.io.load_tagged_words("data/de-tagged.txt.gz")
+
+    print("Extracting noun plural classes...")
+    noun_classes = extract_noun_plural_classes(tagged_words)
+
+    print("Counts:")
+    for k, v in noun_classes.items():
+        print(" ", k.ljust(15), len(v))
+
+    filename = "data/tagged-lexicon-nouns.lexc"
+    print("Saving to '{}'...".format(filename))
+    with open(filename, "w") as f:
+        f.write("LEXICON Noun\n")
+        for k, v in noun_classes.items():
+            for word in sorted(v):
+                f.write("{} {};\n".format(word, k))
+
+    print("Done.")
 
 
 main()
