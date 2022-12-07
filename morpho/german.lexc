@@ -1,7 +1,37 @@
 Multichar_Symbols +N +Masc +Fem +Neut +Sing +Plur +Nom +Gen +Dat +Acc
+    +V +Infinitive +Present +Prateritum +Perfektum +Imperative +1P +2P +3P
 
 LEXICON Root
 Noun ;
+Verb ;
+
+LEXICON Verb
+kaufen:_kauf Vinf;
+einkaufen:ein_kauf Vinf;
+
+LEXICON Vinf
++V+Infinitive:en^_null #;
+
++V+Present+Sing+1P:^e     #;
++V+Present+Sing+2P:^st    #;
++V+Present+Sing+3P:^t     #;
++V+Present+Plur+1P:^en    #;
++V+Present+Plur+2P:^t     #;
++V+Present+Plur+3P:^en    #;
+
++V+Prateritum+Sing+1P:^te   #;
++V+Prateritum+Sing+2P:^test #;
++V+Prateritum+Sing+3P:^te   #;
++V+Prateritum+Plur+1P:^ten  #;
++V+Prateritum+Plur+2P:^tet  #;
++V+Prateritum+Plur+3P:^ten  #;
+
++V+Imperative+Sing+2P:^0   #;
++V+Imperative+Plur+1P:^en  #;
++V+Imperative+Plur+2P:^t   #;
++V+Imperative+Plur+3P:^en  #;
+
++V+Perfektum:^t^_ge  #;
 
 LEXICON Noun
 

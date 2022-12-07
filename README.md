@@ -2,7 +2,8 @@ Homework - German Lexicon
 =========================
 
 - **Course:** [Morphological and Syntactic Analysis](https://ufal.mff.cuni.cz/courses/npfl094)
-- **Assignment:** [here](https://ufal.mff.cuni.cz/~zeman/vyuka/morfosynt/lab-lexicon/index.html)
+- **Lexicon Assignment:** [here](https://ufal.mff.cuni.cz/~zeman/vyuka/morfosynt/lab-lexicon/index.html)
+- **Two-level Morphology Assignment:** [here](https://ufal.mff.cuni.cz/~zeman/vyuka/morfosynt/lab-twolm/index.html)
 
 
 Setup & Execution
@@ -12,7 +13,10 @@ Setup & Execution
     - `wget -O data/de-tagged.txt.gz https://ufal.mff.cuni.cz/~zeman/vyuka/morfosynt/lab-lexicon/de-tagged.txt.gz`
 2. Execute `main.py` to extract the lexicon
     - `python3 main.py`
-3. Read the program output for rough overview and see the output files in the `data` folder
+3. See the output files in the `data` folder
+4. Start `foma` in the root directory, load the foma file and explore:
+    - `foma[0]: source morpho/german.foma`
+    - `foma[1]: pairs`
 
 
 Implemented Extraction Process
