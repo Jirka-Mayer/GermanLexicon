@@ -1,5 +1,5 @@
-Homework - German Lexicon
-=========================
+Homework - German Lexicon (and Morphological Analyzer)
+======================================================
 
 - **Course:** [Morphological and Syntactic Analysis](https://ufal.mff.cuni.cz/courses/npfl094)
 - **Lexicon Assignment:** [here](https://ufal.mff.cuni.cz/~zeman/vyuka/morfosynt/lab-lexicon/index.html)
@@ -109,15 +109,21 @@ ausgelaufen     ausgelaufen
 ausgenommen     ausgenommen herausgenommen
 ```
 
+The extraction code is present in `app/extract_weak_vebs.py`.
+
 
 ### Nouns
 
 Nouns are extracted by taking words that are capitalized in the middle of a sentence. This means we don't get nouns at the beginning of a sentence, but that is not such a problem. We cannot take all capitalized words as-is, because proper nouns may have multiple words and it is therefore incorrect to mark each of their sub-words as a standalone noun (e.g. `Präsidenten George Bush`).
 
+The extraction code is present in `app/NounAdjectiveProcessor.py`.
+
 
 ### Adjectives
 
 Adjectives are extracted by taking the non-capitalized words that immediately precede nouns. These words are mostly articles (`der`, `ein`) or pronouns (`mir`, `diese`) or other closed classes that can be enumerated and filtered out. What remains are mostly adjectives, with a few numerals in between (numerals often behave like adjectives).
+
+The extraction code is present in `app/NounAdjectiveProcessor.py`.
 
 
 ### Adverbs
@@ -135,5 +141,77 @@ For this reason I decided not to extract adverbs automatically, since they can b
 [More info on adverbs](http://germanforenglishspeakers.com/other/adverbs/).
 
 
-TODO: extraction of noun classes
-TODO: setup of morpho analysis (document used tags)
+Extraction of Noun Plural Inflection Classes
+--------------------------------------------
+
+The plural declension class extraction is based on [this wikipedia table](https://en.wikipedia.org/wiki/German_nouns). I use the words in the table to name the classes. First, I utilize the POS tag, splitting the problem down to individual genders:
+
+- masculine (`Berg`, `Staat`, `Fahrer`, `Student`, `Name`)
+- feminine (`Mutter`, `Meinung`, `Kraft`, `Kamera`)
+- neuter (`Bild`, `Radio`)
+
+To check the correct behaviour of a given word when debugging, I used the website https://www.verbformen.com/.
+
+I decided to remove the class `Berg`, as it is practically indistinguishable from `Lehrling`, apart from an optional added `e` (which is not present in the corpus). Similarly `Mutter` and `Name` are classified by the verbformen website as irregular and we could alsoremove them, but they are at least distinguishable from others and the algorithm in the end managed to find at least some instances:
+
+```
+Counts:
+  NMstaat         46
+  NMfahrer        402
+  NMlehrling      305
+  NMstudent       182
+  NMname          6
+
+  NFmutter        2
+  NFmeinung       4082
+  NFkraft         129
+  NFkamera        34
+
+  NNbild          435
+  NNradio         140
+```
+
+The extraction heuristics first sample out easily-distinguishable classes (these typically end with `-s`),like `Kamera`, `Radio`, and `Kraft`. The remaining words are matched having specific suffix in a given case, such as `Bild`, `Mutter`, `Meinung`, `Student`, `Name`. The most difficult classes are `Lehrling`, `Fahrer`, `Staat`, and `Student` as they require us to find the word in non-dative plural form, removing the assumed suffix, and finding the new root in the corpus in singular accusative or dative (or sometimes nominative) form.
+
+The extraction code is present in `app/extract_noun_plural_classes.py`.
+
+
+Morphological Analyzer
+----------------------
+
+The morhological analyzer can identify two word classes: nouns and verbs.
+
+Nouns are classified via the process described above (and stored in `data/german_full_nouns.lexc`) and an inflection structure for each class is defined in `morpho/german_full_head.lexc`.
+
+```
+Mutter => Mutter^¨en --> Mütter^en --> Mütter^n --> Müttern
+```
+
+A postprocessing step applies umlauts, deletes additional `e`s (`dauer^en -> dauern`) and cleans up any additional special marks.
+
+Similarly, verbs are extracted into `data/german_full_verbs.lexc`. Here, all the words have the same inflection class. The extracted verbs contain a separable-prefix marking `_` and are in the infinitive form with `-en` removed:
+
+```
+einkaufen => ein_kauf
+tragen => _trag
+```
+
+Even verbs without separable prefix contain the mark to simplify the foma code. If the verb is in a form where the prefix is separated, it is left in the form `prefix_root` with the separator and then a final step removes the `prefix_` part to make the morphological analysis work correctly. If, however, the analyzer can obtain the prefix, this final step can be removed the the form `prefix_root` can be fed into foma to disambiguate between different prefixes.
+
+```
+:: Ich habe das eingekauft. ::
+einkaufen => ein_kauf^t^_ge --> eingekauf^t --> eingekauft
+
+:: Ich kaufe das ein. ::
+einkaufen => ein_kauf^e --> ein_kauf^e --> kaufe
+
+:: Lieben Sie einkaufen? ::
+einkaufen => ein_kauf^en^_null --> einkauf^en --> einkaufen
+```
+
+A smaller development lexicon is provided in `morpho/german_small.lexc` and can be loaded and inspected from foma running in the root directory:
+
+```
+foma[0]: source morpho/german_small.foma
+foma[1]: pairs
+```
