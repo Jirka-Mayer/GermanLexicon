@@ -1,0 +1,31 @@
+read lexc morpho/german_small.lexc
+define Lexicon;
+
+define Vovel [ a | e | i | o | u ];
+
+define VerbGeInfix "_" -> g e || .#. ?* _ ?* "^" "_" g e ;
+define CleanupGeMark "^" "_" g e -> 0 ;
+define VerbNullInfix "_" -> 0 || .#. ?* _ ?* "^" "_" n u l l ;
+define CleanupNullMark "^" "_" n u l l -> 0 ;
+define CleanupUnusedVerbPrefixMark "_" -> 0 || .#. _ ;
+
+define UmlautApply a -> ä, e -> ë, o -> ö, u -> ü || .#. \Vovel* _ ?* "^" "¨" ;
+define EDeletion e -> 0 || [ r | l ] "^" _ n ;
+define UmlautCleanup "¨" -> 0 || "^" _ ;
+define CleanupHats "^" -> 0;
+
+define RemoveSeparatedPrefix ?* "_" -> 0 || .#. _ ;
+
+define Grammar Lexicon .o.
+    VerbGeInfix .o.
+    CleanupGeMark .o.
+    VerbNullInfix .o.
+    CleanupNullMark .o.
+    CleanupUnusedVerbPrefixMark .o.
+    UmlautApply .o.
+    EDeletion .o.
+    UmlautCleanup .o.
+    CleanupHats .o.
+    RemoveSeparatedPrefix;
+
+regex Grammar;

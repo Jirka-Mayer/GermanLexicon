@@ -1,4 +1,4 @@
-read lexc morpho/german.lexc
+read lexc data/german_full.lexc
 define Lexicon;
 
 define Vovel [ a | e | i | o | u ];

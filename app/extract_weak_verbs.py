@@ -20,6 +20,19 @@ def longest_common_subword(words: set) -> str:
     return best
 
 
+def separate_prefix(word: str):
+    # https://learn-german-easily.com/german-prefix
+    if word[:6] in ["zurück"]:
+        return word[:6], word[6:]
+    if word[:4] in ["nach"]:
+        return word[:4], word[4:]
+    if word[:3] in ["auf", "aus", "bei", "ein", "los", "mit", "hin", "her", "vor", "weg"]:
+        return word[:3], word[3:]
+    if word[:2] in ["an", "ab", "zu"]:
+        return word[:2], word[2:]
+    return "", word
+
+
 def extract_weak_verbs(words: List[str]):
     # set of all open-class lexemes composed of only letters
     # that begin with a lowercase letter (are more likely to be verbs)
@@ -64,18 +77,6 @@ def extract_weak_verbs(words: List[str]):
     # ein-kauf-en
     # ein-ge-kauf-t
     # ich kauf-e ein
-
-    def separate_prefix(word: str):
-        # https://learn-german-easily.com/german-prefix
-        if word[:6] in ["zurück"]:
-            return word[:6], word[6:]
-        if word[:4] in ["nach"]:
-            return word[:4], word[4:]
-        if word[:3] in ["auf", "aus", "bei", "ein", "los", "mit", "hin", "her", "vor", "weg"]:
-            return word[:3], word[3:]
-        if word[:2] in ["an", "ab", "zu"]:
-            return word[:2], word[2:]
-        return "", word
 
     def get_possible_roots(word: str):
         prefix, root = separate_prefix(word)

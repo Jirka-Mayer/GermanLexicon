@@ -4,7 +4,7 @@ from app.closed_classes import *
 from app.NounAdjectiveProcessor import NounAdjectiveProcessor
 import app.ui
 import app.io
-from app.extract_weak_verbs import extract_weak_verbs
+from app.extract_weak_verbs import extract_weak_verbs, separate_prefix
 from app.extract_noun_plural_classes import extract_noun_plural_classes
 
 
@@ -62,14 +62,26 @@ def main():
     for k, v in noun_classes.items():
         print(" ", k.ljust(15), len(v))
 
-    filename = "data/tagged-lexicon-nouns.lexc"
+    filename = "data/german_full_nouns.lexc"
     print("Saving to '{}'...".format(filename))
     with open(filename, "w") as f:
+        f.write("\n")
         f.write("LEXICON Noun\n")
         for k, v in noun_classes.items():
             for word in sorted(v):
                 f.write("{} {};\n".format(word, k))
 
+    print("Saving weak worbs lexicon...")
+
+    filename = "data/german_full_verbs.lexc"
+    print("Saving to '{}'...".format(filename))
+    with open(filename, "w") as f:
+        f.write("\n")
+        f.write("LEXICON Verb\n")
+        for k, v in weak_verbs.items():
+            prefix, root = separate_prefix(k[:-2])
+            f.write("{}:{} Vinf;\n".format(k, prefix + "_" + root))
+    
     print("Done.")
 
 

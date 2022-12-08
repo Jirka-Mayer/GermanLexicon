@@ -11,21 +11,62 @@ Setup & Execution
 
 1. Download the german corpus and put into the `data` folder:
     - `wget -O data/de-tagged.txt.gz https://ufal.mff.cuni.cz/~zeman/vyuka/morfosynt/lab-lexicon/de-tagged.txt.gz`
-2. Execute `main.py` to extract the lexicon
-    - `python3 main.py`
+2. Execute build script to prepare necessary files
+    - `bash build.sh`
 3. See the output files in the `data` folder
-4. Start `foma` in the root directory, load the foma file and explore:
-    - `foma[0]: source morpho/german.foma`
-    - `foma[1]: pairs`
+    - `lexicon-*` files are lexicons extracted without using POS tags, only the verbs are used for morpological analysis
+    - `german_*` files are for the morphological analysis, the verb lexicon contains inflection classes extracted from words known to be nouns thanks to the POS tags
+4. Feed the example input file through the analyzer
+    - `bash analyze.sh < example.txt`
 
 
 Implemented Extraction Process
 ------------------------------
 
-I chose to use German. The German corpus used contains POS tags already, but I decided to ignore them and try to determine these tags myself.
+I chose to use German. The German corpus contains POS tags already, but I decided to ignore them and try to determine these tags myself. I managed to extract nouns, verbs and adjectives. These can be browsed in the `data` folder:
 
-Closed class words (articles, pronouns, prepositions, conjunctions) are enumerated in file [`app/closed_classes.py`](app/closed_classes.py) and for the open class words we are primarily interested in nouns, adjectives, verbs and adverbs.
+```
+### data/lexicon-nouns.txt.gz ###
+Altfall-Regelung
+Altfallregelung
+Altfälle
+Altgeräte
+Altgesellschafter
+Altkredite
+Altlasten
+Altlasten-Probleme
+Altlastensanierung
+```
 
+```
+### data/lexicon-adjectives.txt.gz ###
+alternativer
+alternde
+alternden
+alterndes
+alternierender
+altersbedingte
+altersbedingten
+altes
+```
+
+```
+### data/lexicon-weak-verbs.txt.gz ###
+angeschlagen    angeschlagen angeschlagene angeschlagenen
+angeschlossen   angeschlossen angeschlossene angeschlossenen
+angeschoben     angeschoben
+angeschrieben   angeschrieben
+angesehen       angesehen angesehene angesehenen
+angesprochen    angesprochen angesprochene angesprochenen
+```
+
+For the morphological analysis I realized I need to extract inflection classes of nouns, as they are the most interesting feature of German in this regard. I decided to use the POS tags so that I at least work with the true set of all nouns.
+
+These noun classes together with the weak verbs are used to create a morpological analyzer using `foma`.
+
+
+Extraction of Open Classes Without POS Tags
+-------------------------------------------
 
 ### Verbs
 
@@ -71,25 +112,12 @@ ausgenommen     ausgenommen herausgenommen
 
 ### Nouns
 
-- nouns
-    - capitalized in the middle of a sentence
-    - determine
-        - gender
-        - plural class
-        - https://www.thegermanproject.com/german-lessons/nouns
-        - https://en.wikipedia.org/wiki/German_nouns
+Nouns are extracted by taking words that are capitalized in the middle of a sentence. This means we don't get nouns at the beginning of a sentence, but that is not such a problem. We cannot take all capitalized words as-is, because proper nouns may have multiple words and it is therefore incorrect to mark each of their sub-words as a standalone noun (e.g. `Präsidenten George Bush`).
 
 
 ### Adjectives
 
-- adjectives
-    - not capitalized
-    - atributive adjectives
-        - precede nouns directly -> we can use that
-        - end with "-e", "-en"
-            - https://en.wikipedia.org/wiki/German_declension#Attributive_adjectives
-    - comparative & superlative declensions can be used!
-        - http://germanforenglishspeakers.com/adjectives/comparative-and-superlative-forms/
+Adjectives are extracted by taking the non-capitalized words that immediately precede nouns. These words are mostly articles (`der`, `ein`) or pronouns (`mir`, `diese`) or other closed classes that can be enumerated and filtered out. What remains are mostly adjectives, with a few numerals in between (numerals often behave like adjectives).
 
 
 ### Adverbs
@@ -105,3 +133,7 @@ There are only a handful of words that act as adverbs and not as adjectives. Lis
 For this reason I decided not to extract adverbs automatically, since they can be listed manually.
 
 [More info on adverbs](http://germanforenglishspeakers.com/other/adverbs/).
+
+
+TODO: extraction of noun classes
+TODO: setup of morpho analysis (document used tags)
